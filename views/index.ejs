@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+
+<% if (alert) { %>
+  <p style="color: green;"><%= alert %></p>
+<% } %>
+
+<form action="/add" method="POST">
+  <input type="text" name="title" placeholder="Task title">
+  <select name="priority">
+    <option value="Low">Low</option>
+    <option value="High">High</option>
+    <option value="Urgent">Urgent</option>
+  </select>
+  <button>Add Task</button>
+</form>
+
+<ul>
+  <% tasks.forEach(task => { %>
+    <li>
+      <form action="/delete/<%= task._id %>" method="POST" style="display:inline;">
+        <button>🗑️</button>
+      </form>
+      <form action="/edit/<%= task._id %>" method="POST" style="display:inline;">
+        <input type="text" name="title" value="<%= task.title %>">
+        <select name="priority">
+          <option value="Low" <%= task.priority === 'Low' ? 'selected' : '' %>>Low</option>
+          <option value="High" <%= task.priority === 'High' ? 'selected' : '' %>>High</option>
+          <option value="Urgent" <%= task.priority === 'Urgent' ? 'selected' : '' %>>Urgent</option>
+        </select>
+        <button>✏️</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>
+
+<%- include('partials/footer') %>
